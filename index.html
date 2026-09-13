@@ -166,7 +166,6 @@ button.secondary{border:1px solid var(--line);background:#fffdf8;color:var(--ink
   </div>
 </section>
 
-<!-- NOVA ABA: ANÁLISE DE ADERÊNCIA DA OPORTUNIDADE -->
 <section id="aderencia" class="view">
   <div class="ext-layout">
     <div class="criteria">
@@ -353,7 +352,6 @@ function evalFiltro(){
  }
 }
 
-// LÓGICA DA NOVA ABA: ANÁLISE DE ADERÊNCIA DA OPORTUNIDADE
 function analyzeMatch(){
   const text = document.getElementById('matchTextInput').value.toLowerCase().trim();
   const selectedArea = document.getElementById('matchAreaFilter').value;
@@ -364,7 +362,6 @@ function analyzeMatch(){
     return;
   }
 
-  // Stopwords em português para filtrar na busca de palavras-chave
   const stopWords = new Set(["de","a","o","que","e","do","da","em","um","para","com","não","uma","os","no","se","na","por","mais","as","dos","como","mas","ao","ele","das","à","seu","sua","ou","quando","muito","nos","já","eu","também","só","pelo","pela","até","isso","ela","entre","depois","sem","mesmo","aos","seus","quem","nas","me","esse","eles","você","essa","num","nem","suas","meu","às","minha","numa","pelos","elas","qual","nós","lhe","deles","essas","esses","pelas","este","dele","tu","te","vocês","vos","lhes","meus","minhas","teu","tua","teus","tuas","nosso","nossa","nossos","nossas","dela","delas","esta","estes","estas","aquele","aquela","aqueles","aquelas","isto","aquilo"]);
 
   const tokens = text.replace(/[^\w\sà-úÀ-Ú]/g, '').split(/\s+/).filter(w => w.length > 2 && !stopWords.has(w));
@@ -373,13 +370,11 @@ function analyzeMatch(){
     let score = 0;
     let matchedTerms = new Set();
 
-    // Peso por Área Temática (+30 pontos)
     if(selectedArea && p.areas.includes(selectedArea)){
       score += 30;
       matchedTerms.add(`Área: ${selectedArea}`);
     }
 
-    // Cruzamento por termos
     const targetText = [p.nome, p.resumo, p.saberes, p.competencias, p.competenciaCentral, p.oportunidades].join(' ').toLowerCase();
 
     tokens.forEach(token => {
@@ -395,7 +390,6 @@ function analyzeMatch(){
   results.sort((a,b) => b.score - a.score);
 
   const maxScore = Math.max(...results.map(r => r.score), 1);
-
   const filteredResults = results.filter(r => r.score > 0);
 
   if(filteredResults.length === 0){
@@ -433,7 +427,6 @@ function setup(){
  document.getElementById('searchOport').addEventListener('input',renderOport); document.getElementById('clearOport').onclick=()=>{document.getElementById('searchOport').value='';renderOport();};
  document.getElementById('calcBtn').onclick=evalFiltro;
 
- // Eventos da Aba de Aderência
  document.getElementById('btnAnalyzeMatch').onclick = analyzeMatch;
  document.getElementById('matchFileInput').addEventListener('change', function(e){
    const file = e.target.files[0];
@@ -462,3 +455,4 @@ fetchSheetData();
 </script>
 </body>
 </html>
+  
