@@ -6,38 +6,33 @@
   <title>Mapeamento Extensionista</title>
   <style>
     :root {
-      --furg-blue: #003366;
-      --furg-blue-light: #004b93;
-      --furg-gold: #c59b27;
+      --furg-blue: #2c3e50;
+      --furg-blue-light: #34495e;
+      --furg-gold: #d4ac0d;
       --furg-bg: #f4f6f9;
       --furg-card: #ffffff;
-      --furg-text: #222222;
+      --furg-text: #2c3e50;
       --furg-border: #dcdcdc;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--furg-bg); color: var(--furg-text); display: flex; height: 100vh; overflow: hidden; }
 
-    /* Barra Lateral Restaurada */
+    /* Barra Lateral Restaurada com tom Grafite/Cinza Escuro */
     .sidebar { width: 260px; background: var(--furg-blue); color: white; display: flex; flex-direction: column; padding: 20px 0; flex-shrink: 0; }
     .sidebar-header { padding: 0 20px 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .sidebar-header h2 { font-size: 18px; font-weight: 700; color: white; }
-    .sidebar-header p { font-size: 12px; color: #a0c4ff; margin-top: 4px; font-weight: 500; }
+    .sidebar-header p { font-size: 12px; color: #bdc3c7; margin-top: 4px; font-weight: 500; }
 
     .nav-list { list-style: none; margin-top: 15px; }
-    .nav-item { padding: 12px 20px; font-size: 14px; cursor: pointer; border-left: 4px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 10px; color: #d0e1ff; }
+    .nav-item { padding: 12px 20px; font-size: 14px; cursor: pointer; border-left: 4px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 10px; color: #ecf0f1; }
     .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
     .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: var(--furg-gold); color: white; font-weight: 600; }
 
-    /* Área de Conteúdo Principal */
-    .main-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; }
+    /* Área de Conteúdo Principal (Largura ajustada) */
+    .main-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; max-width: 1400px; margin: 0 auto; width: 100%; }
     .view { display: none; }
     .view.active { display: block; }
-
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
-    .kpi { background: var(--furg-card); padding: 18px; border-radius: 8px; border: 1px solid var(--furg-border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .kpi-title { font-size: 12px; font-weight: 600; color: #666; text-transform: uppercase; }
-    .kpi-value { font-size: 30px; font-weight: 700; color: var(--furg-blue); margin-top: 5px; }
 
     .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 20px; margin-bottom: 25px; }
     .chart-card { background: var(--furg-card); padding: 20px; border-radius: 8px; border: 1px solid var(--furg-border); }
@@ -124,15 +119,8 @@
   <!-- Conteúdo Principal -->
   <main class="main-content">
 
-    <!-- PAINEL GERAL -->
+    <!-- PAINEL GERAL (Sem o KPI de Projetos Mapeados) -->
     <section id="v-geral" class="view active">
-      <div class="kpi-grid">
-        <div class="kpi">
-          <div class="kpi-title">Projetos Mapeados</div>
-          <div class="kpi-value" id="kpiProjetos">0</div>
-        </div>
-      </div>
-
       <div class="flow-section">
         <h3>Fluxo de Mapeamento Extensionista</h3>
         <p>Etapas do processo de prospecção e pactuação</p>
@@ -222,16 +210,9 @@
       </div>
     </section>
 
-    <!-- FILTRO EXTENSIONISTA -->
+    <!-- FILTRO EXTENSIONISTA (Sem a caixa de alerta de prestação de serviço) -->
     <section id="v-filtro" class="view">
       <div class="criteria-box" id="criteriaBox"></div>
-
-      <div style="margin-top:15px;">
-        <label class="check" style="font-weight:600;">
-          <input type="checkbox" id="chk-alerta-servico">
-          <span>Sinalizar possível prestação de serviço (atenção especial exigida)</span>
-        </label>
-      </div>
 
       <div style="margin-top:15px;">
         <button id="calcBtn" style="padding:10px 20px; background:var(--furg-blue); color:white; border:none; border-radius:6px; font-weight:600; cursor:pointer;">Avaliar Aderência Extensionista</button>
@@ -304,11 +285,9 @@
       }
     ];
 
-    function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+    function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]);}
 
     function renderGeneral(){
-      document.getElementById('kpiProjetos').textContent = DATA.length;
-
       const areaCounts = {};
       DATA.forEach(p => p.areas.forEach(a => areaCounts[a] = (areaCounts[a] || 0) + 1));
       const sortedAreas = Object.entries(areaCounts).sort((a,b) => b[1] - a[1]);
@@ -343,7 +322,6 @@
       DATA.slice().sort((a,b)=>(a.nome||'').localeCompare(b.nome||'')).forEach(p=>pf.insertAdjacentHTML('beforeend',`<option value="${esc(p.id)}">${esc(p.id)} — ${esc(p.nome)}</option>`));
     }
 
-    /* Excluído apenas o item de Competências do Card */
     function card(p){
       return `<article class="project-card">
         <div class="project-id">${esc(p.id)}</div>
@@ -405,9 +383,6 @@
       else if(overall>=50){title='Aderência extensionista intermediária';desc='Aderência parcial; alguns pontos podem ser melhorados.'}
       document.getElementById('scoreTitle').textContent=title; document.getElementById('scoreDesc').textContent=desc;
       document.getElementById('guidelineResults').innerHTML=results.map(d=>`<div class="guideline"><div class="g-head"><span>${esc(d.label)}</span><span class="pct">${d.pct}%</span></div><div class="g-desc">${esc(d.desc)}</div></div>`).join('');
-      if(document.getElementById('chk-alerta-servico').checked){
-        document.getElementById('scoreDesc').textContent += ' ⚠️ Alerta: Prestação de serviço sinalizada.';
-      }
     }
 
     function analyzeMatch(){
