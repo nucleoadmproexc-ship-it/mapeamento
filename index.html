@@ -35,15 +35,15 @@ h1{font-size:28px;line-height:1.1;margin:5px 0 7px}
 .panel h2{font-size:16px;margin:0 0 5px}.panel p.help{font-size:12px;color:var(--muted);margin:0 0 15px}
 .bar-row{display:grid;grid-template-columns:220px 1fr 34px;gap:10px;align-items:center;margin:12px 0;font-size:12px}
 .bar{height:9px;background:#e7e1d7;border-radius:20px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--accent);border-radius:20px}
-.flow-container{display:flex;align-items:center;justify-content:space-between;background:#eef3f0;padding:16px;border-radius:12px;border:1px solid #d2e0d8;margin-bottom:20px;gap:10px;flex-wrap:wrap}
-.flow-step{background:#fff;padding:10px 14px;border-radius:8px;font-weight:700;font-size:12px;color:var(--accent);border:1px solid #c0d3c7;text-align:center;flex:1;min-width:140px}
-.flow-arrow{font-weight:800;color:var(--accent2);font-size:16px}
+.flow-container{display:flex;align-items:center;justify-content:space-between;background:#eef3f0;padding:16px;border-radius:12px;border:1px solid #d2e0d8;margin-bottom:20px;gap:8px;flex-wrap:wrap}
+.flow-step{background:#fff;padding:9px 12px;border-radius:8px;font-weight:700;font-size:11px;color:var(--accent);border:1px solid #c0d3c7;text-align:center;flex:1;min-width:120px}
+.flow-arrow{font-weight:800;color:var(--accent2);font-size:14px}
 .filters{display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:10px;margin-bottom:16px}
 input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#fffdf8;color:var(--ink);outline:none;font-family:inherit}
 button.primary{border:0;background:var(--accent);color:white;padding:10px 14px;border-radius:9px;cursor:pointer;font-weight:700}
 button.secondary{border:1px solid var(--line);background:#fffdf8;color:var(--ink);padding:10px 14px;border-radius:9px;cursor:pointer}
 .project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.project-card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:transform 0.15s}
+.project-card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:transform 0.15s;position:relative}
 .project-card:hover{transform:translateY(-2px)}
 .project-id{font-size:11px;font-weight:800;color:var(--accent2);letter-spacing:.7px}.project-card h3{font-size:16px;line-height:1.3;margin:6px 0 8px;color:#1d2930}
 .project-card .coord{font-size:12px;color:var(--muted);margin-bottom:11px}
@@ -60,7 +60,14 @@ button.secondary{border:1px solid var(--line);background:#fffdf8;color:var(--ink
 .guideline{border:1px solid var(--line);border-radius:11px;padding:13px;margin:10px 0}.g-head{display:flex;justify-content:space-between;gap:15px;font-size:12px;font-weight:750}.pct{color:var(--accent);font-weight:850}.g-desc{font-size:11px;color:var(--muted);margin-top:5px}
 .footer{font-size:11px;color:#8a8e8e;margin-top:25px}
 .loading-box{text-align:center;padding:40px;font-weight:bold;color:var(--accent);}
-.match-badge{float:right;background:var(--accent);color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;}
+.match-badge{float:right;background:var(--accent);color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:6px;}
+
+/* Status Dots para Aderência */
+.status-dot{display:inline-block;width:10px;height:10px;border-radius:50%;}
+.dot-green{background:#28a745;box-shadow:0 0 6px rgba(40,167,69,0.5);}
+.dot-orange{background:#fd7e14;box-shadow:0 0 6px rgba(253,126,20,0.5);}
+.dot-red{background:#dc3545;box-shadow:0 0 6px rgba(220,53,69,0.5);}
+
 @media(max-width:1050px){.cards{grid-template-columns:repeat(2,1fr)}.grid2,.ext-layout{grid-template-columns:1fr}.project-grid{grid-template-columns:1fr}}
 @media(max-width:760px){.sidebar{position:static;width:100%;min-height:auto}.app{display:block}.content{margin-left:0;width:100%;padding:20px}.filters{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.bar-row{grid-template-columns:1fr 80px 25px}}
 </style>
@@ -69,7 +76,7 @@ button.secondary{border:1px solid var(--line);background:#fffdf8;color:var(--ink
 <div class="app">
 <aside class="sidebar">
   <div class="brand">Mapeamento</div>
-  <div class="brand-sub">Projetos, saberes, competências e oportunidades de extensão</div>
+  <div class="brand-sub">A Universidade Pública é um bem social!</div>
   <nav class="nav">
     <button class="active" data-view="geral"><span class="dot"></span>Painel Geral</button>
     <button data-view="projetos"><span class="dot"></span>Projetos, Programas e Ações</button>
@@ -102,9 +109,15 @@ button.secondary{border:1px solid var(--line);background:#fffdf8;color:var(--ink
     <h2>Fluxo de Mapeamento Extensionista</h2>
     <p class="help">Etapas do processo de prospecção e pactuação.</p>
     <div class="flow-container">
-      <div class="flow-step">Mapeamento de Saberes e Competências</div>
+      <div class="flow-step">Reunião com grupos de extensão</div>
       <div class="flow-arrow">➔</div>
-      <div class="flow-step">Oportunidade / Demanda</div>
+      <div class="flow-step">Preenchimento formulário</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">Mapeamento das competências</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">Oportunidades/Demandas</div>
+      <div class="flow-arrow">➔</div>
+      <div class="flow-step">Análise e Aderência</div>
       <div class="flow-arrow">➔</div>
       <div class="flow-step">Filtro Extensionista</div>
       <div class="flow-arrow">➔</div>
@@ -230,7 +243,6 @@ button.secondary{border:1px solid var(--line);background:#fffdf8;color:var(--ink
 </div>
 
 <script>
-// Cole a URL do seu Google Apps Script entre as aspas abaixo:
 const API_URL = "https://script.google.com/macros/s/AKfycbxMg1rHpA2FB-BnFdEcfOs7avyVjEYl8ysa6o6Va_Z55mZt0vFBZBH4tDBHm1dRWnF0Ug/exec";
 
 let DATA = [];
@@ -400,8 +412,17 @@ function analyzeMatch(){
   container.innerHTML = filteredResults.map(r => {
     const p = r.project;
     const matchPct = Math.min(100, Math.round((r.score / Math.max(maxScore, 40)) * 100));
+    
+    // Define a cor da bolinha de status de acordo com o nível de aderência
+    let dotClass = "dot-red";
+    if (matchPct >= 70) {
+      dotClass = "dot-green";
+    } else if (matchPct >= 40) {
+      dotClass = "dot-orange";
+    }
+
     return `<article class="project-card">
-      <span class="match-badge">${matchPct}% Aderência</span>
+      <span class="match-badge"><span class="status-dot ${dotClass}"></span>${matchPct}% Aderência</span>
       <div class="project-id">${esc(p.id)}</div>
       <h3>${esc(p.nome)}</h3>
       <div class="coord">Coordenação: ${esc(p.coordenador)}</div>
