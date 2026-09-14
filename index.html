@@ -18,32 +18,42 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--furg-bg); color: var(--furg-text); display: flex; height: 100vh; overflow: hidden; }
 
-    /* Barra Lateral Restaurada com tom Grafite/Cinza Escuro */
-    .sidebar { width: 260px; background: var(--furg-blue); color: white; display: flex; flex-direction: column; padding: 20px 0; flex-shrink: 0; }
+    /* Barra Lateral */
+    .sidebar { width: 280px; background: var(--furg-blue); color: white; display: flex; flex-direction: column; padding: 20px 0; flex-shrink: 0; }
     .sidebar-header { padding: 0 20px 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .sidebar-header h2 { font-size: 18px; font-weight: 700; color: white; }
-    .sidebar-header p { font-size: 12px; color: #bdc3c7; margin-top: 4px; font-weight: 500; }
+    .sidebar-header h2 { font-size: 17px; font-weight: 700; color: white; line-height: 1.3; }
 
     .nav-list { list-style: none; margin-top: 15px; }
     .nav-item { padding: 12px 20px; font-size: 14px; cursor: pointer; border-left: 4px solid transparent; transition: all 0.2s; display: flex; align-items: center; gap: 10px; color: #ecf0f1; }
     .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
     .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: var(--furg-gold); color: white; font-weight: 600; }
 
-    /* Área de Conteúdo Principal (Largura ajustada) */
+    .sidebar-footer { margin-top: auto; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .btn-form { display: block; width: 100%; text-align: center; background: var(--furg-gold); color: var(--furg-blue); padding: 10px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 13px; transition: background 0.2s; }
+    .btn-form:hover { background: #f1c40f; }
+
+    /* Área Principal */
     .main-content { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; max-width: 1400px; margin: 0 auto; width: 100%; }
     .view { display: none; }
     .view.active { display: block; }
+
+    /* Cards de KPI */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .kpi-card { background: var(--furg-card); border: 1px solid var(--furg-border); border-radius: 8px; padding: 18px; text-align: center; }
+    .kpi-val { font-size: 32px; font-weight: 800; color: var(--furg-blue); }
+    .kpi-lbl { font-size: 12px; color: #666; margin-top: 4px; font-weight: 600; }
 
     .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 20px; margin-bottom: 25px; }
     .chart-card { background: var(--furg-card); padding: 20px; border-radius: 8px; border: 1px solid var(--furg-border); }
     .chart-card h3 { font-size: 15px; margin-bottom: 15px; color: var(--furg-blue); }
 
+    /* Fluxo */
     .flow-section { background: var(--furg-card); padding: 20px; border-radius: 8px; border: 1px solid var(--furg-border); margin-bottom: 25px; }
     .flow-section h3 { font-size: 15px; color: var(--furg-blue); margin-bottom: 4px; }
     .flow-section p { font-size: 12px; color: #666; margin-bottom: 15px; }
     .flow-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; align-items: center; }
     .flow-step { background: #eef4fc; border: 1px solid #c8dcfa; border-radius: 6px; padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--furg-blue); white-space: nowrap; flex-shrink: 0; }
-    .flow-arrow { color: #888; font-weight: bold; flex-shrink: 0; }
+    .flow-arrow { color: #888; font-weight: bold; flex-shrink: 0; font-size: 14px; }
 
     .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; }
     .bar-row span { width: 170px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; color: #444; }
@@ -71,12 +81,17 @@
 
     .search-empty { text-align: center; padding: 40px; color: #777; grid-column: 1 / -1; }
 
-    /* Badges com Marcadores de Cor para Aderência */
+    /* Layout de Duas Caixas na Análise de Aderência */
+    .match-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+    @media (max-width: 900px) { .match-layout { grid-template-columns: 1fr; } }
+
+    /* Badges com Bolinhas Coloridas de Aderência */
     .badge-status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; position: absolute; top: 16px; right: 16px; }
     .badge-status.high { background: #e6f4ea; color: #137333; }
     .badge-status.medium { background: #fef7e0; color: #b06000; }
     .badge-status.low { background: #fce8e6; color: #c5221f; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    
+    .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
     .dot.high { background-color: #34a853; }
     .dot.medium { background-color: #fbbc04; }
     .dot.low { background-color: #ea4335; }
@@ -100,11 +115,10 @@
 </head>
 <body>
 
-  <!-- Sidebar Lateral Preservada -->
+  <!-- Barra Lateral com a frase solicitada e Link para Formulário intacto -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h2>Mapeamento</h2>
-      <p>A Universidade Pública é um bem social!</p>
+      <h2>A Universidade Pública é um bem social!</h2>
     </div>
     <ul class="nav-list">
       <li class="nav-item active" data-view="v-geral">Painel Geral</li>
@@ -114,29 +128,39 @@
       <li class="nav-item" data-view="v-match">Análise e Aderência</li>
       <li class="nav-item" data-view="v-filtro">Filtro Extensionista</li>
     </ul>
+    <div class="sidebar-footer">
+      <a href="https://forms.gle/exemplo" target="_blank" class="btn-form">Acessar Formulário</a>
+    </div>
   </aside>
 
   <!-- Conteúdo Principal -->
   <main class="main-content">
 
-    <!-- PAINEL GERAL (Sem o KPI de Projetos Mapeados) -->
+    <!-- PAINEL GERAL -->
     <section id="v-geral" class="view active">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-val" id="kpiProjetos">0</div>
+          <div class="kpi-lbl">Projetos Mapeados</div>
+        </div>
+      </div>
+
       <div class="flow-section">
         <h3>Fluxo de Mapeamento Extensionista</h3>
         <p>Etapas do processo de prospecção e pactuação</p>
         <div class="flow-container">
           <div class="flow-step">Reunião com grupos de extensão</div>
-          <span class="flow-arrow">➔</span>
+          <span class="flow-arrow">=&gt;</span>
           <div class="flow-step">Preenchimento formulário</div>
-          <span class="flow-arrow">➔</span>
+          <span class="flow-arrow">=&gt;</span>
           <div class="flow-step">Mapeamento das competências</div>
-          <span class="flow-arrow">➔</span>
+          <span class="flow-arrow">=&gt;</span>
           <div class="flow-step">Oportunidades/Demandas</div>
-          <span class="flow-arrow">➔</span>
+          <span class="flow-arrow">=&gt;</span>
           <div class="flow-step">Análise e Aderência</div>
-          <span class="flow-arrow">➔</span>
+          <span class="flow-arrow">=&gt;</span>
           <div class="flow-step">Filtro Extensionista</div>
-          <span class="flow-arrow">➔</span>
+          <span class="flow-arrow">=&gt;</span>
           <div class="flow-step">Pactuação (Agência)</div>
         </div>
       </div>
@@ -182,35 +206,46 @@
       <div class="grid" id="oportGrid"></div>
     </section>
 
-    <!-- ANÁLISE E ADERÊNCIA -->
+    <!-- ANÁLISE E ADERÊNCIA (Estrutura com 2 Caixas Mantida) -->
     <section id="v-match" class="view">
-      <div class="chart-card" style="margin-bottom:20px;">
-        <h3>Análise e Aderência por Demanda / Oportunidade</h3>
-        <p style="font-size:12px; color:#666; margin-bottom:12px;">Cole o texto do Termo de Referência, Edital ou Demanda para identificar os projetos mais aderentes:</p>
+      <div class="match-layout">
         
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <textarea id="matchTextInput" rows="4" style="width:100%; padding:10px; border:1px solid var(--furg-border); border-radius:6px; font-family:inherit; font-size:13px;" placeholder="Cole o texto da demanda aqui..."></textarea>
+        <!-- Caixa 1: Análise de Aderência da Oportunidade -->
+        <div class="chart-card">
+          <h3>Análise de Aderência da Oportunidade</h3>
+          <p style="font-size:12px; color:#666; margin-bottom:12px;">Cole o texto do Termo de Referência, Edital ou Demanda para identificar os projetos mais aderentes:</p>
           
-          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-            <label style="font-size:12px; font-weight:600; color:#555;">Ou selecione um arquivo (.txt ou .pdf):</label>
-            <input type="file" id="matchFileInput" accept=".txt,.pdf" style="font-size:12px; padding:4px;">
-          </div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <textarea id="matchTextInput" rows="6" style="width:100%; padding:10px; border:1px solid var(--furg-border); border-radius:6px; font-family:inherit; font-size:13px;" placeholder="Cole o texto da demanda aqui..."></textarea>
+            
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <label style="font-size:12px; font-weight:600; color:#555;">Ou selecione um arquivo (.txt ou .pdf):</label>
+              <input type="file" id="matchFileInput" accept=".txt,.pdf" style="font-size:12px; padding:4px;">
+            </div>
 
-          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:5px;">
-            <select id="matchAreaFilter" style="padding:8px; border:1px solid var(--furg-border); border-radius:6px; font-size:13px;">
-              <option value="">Selecione uma área (Opcional)</option>
-            </select>
-            <button id="btnAnalyzeMatch" style="padding:8px 16px; background:var(--furg-blue); color:white; border:none; border-radius:6px; font-weight:600; cursor:pointer;">Analisar Aderência</button>
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <label style="font-size:12px; font-weight:600; color:#555;">Filtrar por Área Temática (Opcional):</label>
+              <select id="matchAreaFilter" style="padding:8px; border:1px solid var(--furg-border); border-radius:6px; font-size:13px; width:100%;">
+                <option value="">Selecione uma área (Opcional)</option>
+              </select>
+            </div>
+
+            <button id="btnAnalyzeMatch" style="padding:10px 16px; background:var(--furg-blue); color:white; border:none; border-radius:6px; font-weight:600; cursor:pointer; margin-top:5px;">Analisar Aderência</button>
           </div>
         </div>
-      </div>
 
-      <div class="grid" id="matchResults">
-        <div class="search-empty">Insira um texto ou selecione uma área temática para iniciar a análise.</div>
+        <!-- Caixa 2: Projetos com Maior Aderência -->
+        <div class="chart-card">
+          <h3>Projetos com Maior Aderência</h3>
+          <div class="grid" id="matchResults" style="margin-top:10px;">
+            <div class="search-empty">Insira um texto ou selecione uma área temática na caixa ao lado para iniciar a análise.</div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- FILTRO EXTENSIONISTA (Sem a caixa de alerta de prestação de serviço) -->
+    <!-- FILTRO EXTENSIONISTA -->
     <section id="v-filtro" class="view">
       <div class="criteria-box" id="criteriaBox"></div>
 
@@ -229,13 +264,11 @@
 
   </main>
 
-  <!-- Leitor de PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
   <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-    // COLE A URL DO SEU GOOGLE APPS SCRIPT ABAIXO:
     const API_URL = "https://script.google.com/macros/s/AKfycbxMg1rHpA2FB-BnFdEcfOs7avyVjEYl8ysa6o6Va_Z55mZt0vFBZBH4tDBHm1dRWnF0Ug/exec";
 
     let DATA = [];
@@ -243,51 +276,18 @@
     const AREA_OPTIONS = ["Oceano e Economia Azul", "Clima, Meio Ambiente e Sustentabilidade", "Educação, Cultura e Sociedade", "Indústria, Engenharia e Manufatura", "Saúde e Bem-estar", "Sistemas Alimentares, Agro e Bioeconomia", "Inovação Social, Cooperativas e Tecnologias Sociais", "Transformação Digital e Tecnologias da Informação", "Gestão, Economia e Ecossistemas de Inovação", "Cidades, Infraestrutura e Territórios Inteligentes"];
 
     const DIRETRIZES = [
-      {
-        key:'dialogo', 
-        label:'Interação Dialógica', 
-        chks:['chk-dialogo-1','chk-dialogo-2'], 
-        desc1:'Prevê diálogo e construção conjunta com os grupos e organizações envolvidos.',
-        desc2:'Promove a democratização do conhecimento e o intercâmbio de saberes com a comunidade.',
-        desc:'Prevê diálogo e construção conjunta com os grupos e organizações envolvidos?'
-      },
-      {
-        key:'inter', 
-        label:'Interdisciplinaridade e Interprofissionalidade', 
-        chks:['chk-inter-1','chk-inter-2'], 
-        desc1:'Articula diferentes áreas do conhecimento na construção e execução das ações.',
-        desc2:'Promove a cooperação interprofissional entre estudantes, docentes e a comunidade.',
-        desc:'Articula diferentes áreas, saberes ou profissões na construção das ações?'
-      },
-      {
-        key:'triplice', 
-        label:'Indissociabilidade Ensino-Pesquisa-Extensão', 
-        chks:['chk-triplice-1','chk-triplice-2'], 
-        desc1:'Integra os contéudos teóricos do ensino prático com as demandas reais da extensão.',
-        desc2:'Gera novos conhecimentos ou temas de pesquisa a partir da experiência extensionista.',
-        desc:'Relaciona as ações extensionistas com Ensino e/ou Pesquisa de forma integrada?'
-      },
-      {
-        key:'formacao', 
-        label:'Impacto na Formação do Estudante', 
-        chks:['chk-formacao-1','chk-formacao-2'], 
-        desc1:'Produz aprendizagem significativa e formação técnica para a atuação profissional.',
-        desc2:'Desenvolve consciência cidadã, ética, social e crítica nos estudantes participantes.',
-        desc:'A participação estudantil produz aprendizagem e formação para a atuação profissional e cidadã?'
-      },
-      {
-        key:'social', 
-        label:'Impacto e Transformação Social', 
-        chks:['chk-social-1','chk-social-2'], 
-        desc1:'Atua diretamente em problemas e demandas prioritárias da sociedade.',
-        desc2:'Tem potencial de produzir mudanças estruturais e benefícios socialmente relevantes.',
-        desc:'Há potencial de produzir mudanças, benefícios ou transformações socialmente relevantes?'
-      }
+      { key:'dialogo', label:'Interação Dialógica', chks:['chk-dialogo-1','chk-dialogo-2'], desc:'Prevê diálogo e construção conjunta com os grupos e organizações envolvidos?' },
+      { key:'inter', label:'Interdisciplinaridade e Interprofissionalidade', chks:['chk-inter-1','chk-inter-2'], desc:'Articula diferentes áreas, saberes ou profissões na construção das ações?' },
+      { key:'triplice', label:'Indissociabilidade Ensino-Pesquisa-Extensão', chks:['chk-triplice-1','chk-triplice-2'], desc:'Relaciona as ações extensionistas com Ensino e/ou Pesquisa de forma integrada?' },
+      { key:'formacao', label:'Impacto na Formação do Estudante', chks:['chk-formacao-1','chk-formacao-2'], desc:'A participação estudantil produz aprendizagem e formação para a atuação profissional e cidadã?' },
+      { key:'social', label:'Impacto e Transformação Social', chks:['chk-social-1','chk-social-2'], desc:'Há potencial de produzir mudanças, benefícios ou transformações socialmente relevantes?' }
     ];
 
     function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]);}
 
     function renderGeneral(){
+      document.getElementById('kpiProjetos').textContent = DATA.length;
+
       const areaCounts = {};
       DATA.forEach(p => p.areas.forEach(a => areaCounts[a] = (areaCounts[a] || 0) + 1));
       const sortedAreas = Object.entries(areaCounts).sort((a,b) => b[1] - a[1]);
@@ -369,8 +369,8 @@
       const box=document.getElementById('criteriaBox');
       box.innerHTML=DIRETRIZES.map(d=>`<div class="criterion">
         <div class="criterion-title">${esc(d.label)}</div>
-        <label class="check"><input type="checkbox" id="${d.chks[0]}"> <span><b>Primeiro aspecto:</b> ${esc(d.desc1)}</span></label>
-        <label class="check"><input type="checkbox" id="${d.chks[1]}"> <span><b>Segundo aspecto:</b> ${esc(d.desc2)}</span></label>
+        <label class="check"><input type="checkbox" id="${d.chks[0]}"> <span>Atende ao primeiro aspecto da diretriz</span></label>
+        <label class="check"><input type="checkbox" id="${d.chks[1]}"> <span>Atende ao segundo aspecto da diretriz</span></label>
       </div>`).join('');
     }
 
@@ -436,21 +436,18 @@
         
         let badgeClass = "low";
         let dotClass = "low";
-        let badgeLabel = "Aderência Baixa";
 
-        if (matchPct >= 75) {
+        if (matchPct >= 70) {
           badgeClass = "high";
           dotClass = "high";
-          badgeLabel = "Aderência Alta";
-        } else if (matchPct >= 55) {
+        } else if (matchPct >= 40) {
           badgeClass = "medium";
           dotClass = "medium";
-          badgeLabel = "Aderência Média";
         }
 
         return `<article class="project-card">
           <span class="badge-status ${badgeClass}">
-            <i class="dot ${dotClass}"></i> ${badgeLabel}
+            <i class="dot ${dotClass}"></i> ${matchPct}% Aderência
           </span>
           <div class="project-id">${esc(p.id)}</div>
           <h3>${esc(p.nome)}</h3>
@@ -468,7 +465,6 @@
     function setup(){
       renderGeneral(); fillFilters(); renderProjects(); renderSaberes(); renderOport(); renderCriteria();
       
-      // Navegação por cliques na Barra Lateral
       document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => {
         document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
         btn.classList.add('active');
